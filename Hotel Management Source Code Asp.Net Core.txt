@@ -1,0 +1,87 @@
+
+
+      Packages to Install
+          Microsoft.Entity.Framework Core
+          Microsoft.Entity.Framework Core.SqlServer
+          Microsoft Entity Framework Core.Tools
+
+
+
+     Database Connection Code
+
+
+    "ConnectionStrings": {
+  "DefaultConnection": "Server=DESKTOP-HEEKBHE\\SQLEXPRESS;Database=HotelDB;Trusted_Connection=True;TrustServerCertificate=True"
+},
+
+
+
+   Guests Class
+
+   public int Id { get; set; }
+public string FirstName { get; set; }
+public string LastName { get; set; }
+public string Address { get; set; }
+public string Phone { get; set; }
+
+
+
+    GuestsDbContext
+
+
+    public GuestsDbContext(DbContextOptions<GuestsDbContext> options)
+    : base(options)
+{
+
+}
+
+public DbSet<Guests> Guest { get; set; }
+
+
+
+
+   program.cs code
+
+
+
+   builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Access/Login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    });
+
+builder.Services.AddDbContext<GuestsDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<RoomsDbContext>(actions =>
+{
+    actions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<BookingsDbContext>(choices =>
+{
+    choices.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<PaymentsDbContext>(pickups =>
+{
+    pickups.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+
+
+  migrations and update-database
+
+  add-migration first
+
+  update-database
+
+
+  add-migration second -Context HotelManagement.Room.RoomsDbContext
+
+        update-database -Context HotelManagement.Room.RoomsDbContext
+
